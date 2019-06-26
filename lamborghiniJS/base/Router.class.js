@@ -1,23 +1,18 @@
-(function(IT,factory){
-	'use strict';
-	var System = IT['LAM_20150910123700_'];
+const F_Component = require('./Component.class');
+const F_View = require('./View.class');
+const F_Controller = require('./Controller.class');
+const F_HttpRequest = require('./HttpRequest.class');
 
-	if(!System){
-		return;
-	}else{
-		typeof exports === 'object' && typeof module !== 'undefined' ? module.exports = factory(System) :
-		typeof define === 'function' && define.amd ? define(factory(System)) :
-		(System['Router'] = factory(System));
-	}
-
-})(this,function(System){
+const Router = function(System,req,res){
 	'use strict';
-	System.is(System,'Browser','Router',System.classPath+'/base');
-    if(!System.isset(System.CONTROLLERS)){throw new Error("LAM.CONTROLLERS undefined");}
-    System.import(['/View.class'],System.classPath+'/base');
+	const Component = F_Component(System);
+	const View = F_View(System,res);
+	const Controller = F_Controller(System);
+	const HttpRequest = F_HttpRequest(System,req);
+
 
 	var __this__=null;
-	var Router = System.Browser.extend({
+	var Router = Component.extend({
 		constructor: function () {
 			this.base();
 			__this__ = this;
@@ -59,8 +54,8 @@
 		r = r || 'r';
 		m = m || 'm';
 
-		m = System.get(m) ? System.get(m) : null;
-		r = System.get(r) ? System.get(r) : System.defaultRoute || 'site/index';
+		m = HttpRequest.get(m) ? HttpRequest.get(m) : null;
+		r = HttpRequest.get(r) ? HttpRequest.get(r) : System.defaultRoute || 'site/index';
 
 	    var routeRules = System.routeRules;
 	    if(routeRules){
@@ -87,18 +82,17 @@
 		r = R.r.split('/');
 		var M = '';
 	    var str = r[0];
-        var Controller = str.substring(0,1).toUpperCase()+str.substring(1);
-        var ControllerName = Controller+'Controller';
+        var ControllerName = str.substring(0,1).toUpperCase()+str.substring(1);
         if(System.isString(R.m)) M = R.m+'/';
-        System.import(['/'+M+ControllerName+'.class'],System.CONTROLLERS);
+        var MyController = require(System.CONTROLLERS+'/'+M+ControllerName+'Controller.class');
 
         var action = r[1]+'Action';
         var id = r[2];
         var view="";
         id = System.eval(id);
         try{ 
-        	var controller = new System[ControllerName](); 
-        	if(controller instanceof System.Controller){ 
+        	var controller = new MyController(); 
+        	if(controller instanceof Controller){ 
         		if(action && System.isFunction(controller[action])){
                     controller.viewpath = System.VIEWS+'/'+M+Controller.toLowerCase();
                     controller.init();
@@ -109,16 +103,16 @@
         		} 
         	} 
         }catch(e){ 
-        	System.View.ERROR_404(e); 
+        	View.ERROR_404(e); 
         	throw new Error(e); 
         }
     };
 
 
-	Router.run(System.routeName,System.moduleID);
+	
 	return Router;
-});
+};
 
 
-
+module.exports = Router;
 

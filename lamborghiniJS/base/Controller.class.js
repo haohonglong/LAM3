@@ -12,24 +12,12 @@
  *
  *
  */
-(function(IT,factory){
+const Controller = function(System){
     'use strict';
-    var System = IT['LAM_20150910123700_'];
-
-    if(!System){
-        return;
-    }else{
-        typeof exports === 'object' && typeof module !== 'undefined' ? module.exports = factory(System) :
-        typeof define === 'function' && define.amd ? define(factory(System)) :
-        (System['Controller'] = factory(System));
-    }
-
-})(this,function(System){
-    'use strict';
-    System.is(System,'Component','Controller',System.classPath+'/base');
+    var Component = require(System.files[0]['Component'])(System);
     var __this__=null;
 
-    var Controller = System.Component.extend({
+    var Controller = Component.extend({
         constructor: function(init) {
             this.base();
             __this__=this;
@@ -148,9 +136,9 @@
     });
 
     return Controller;
-});
+};
 
 
 
-
+module.exports = Controller;
 

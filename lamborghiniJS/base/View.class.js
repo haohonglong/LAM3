@@ -1,9 +1,13 @@
-const View = function(System){
+const F_Component = require('./Component.class');
+const F_Template = require('./Template.class');
+const ONCE = 0;
+const View = function(System,res){
 	'use strict';
-	System.is(System,'Component','View',System.classPath+'/base');
+	const Component = F_Component(System);
+	const Template = F_Template(System);
 
 	var __this__=null;
-	var View = System.Component.extend({
+	var View = Component.extend({
 		constructor: function () {
 			this.base();
 			__this__ = this;
@@ -95,23 +99,19 @@ const View = function(System){
 		}
         message = message || '404 Not Found';
         url = url || System.ERROR_404;
-        new System.Template().render(url, {'code':code,'message': message}, function (content) {
+        new Template().render(url, {'code':code,'message': message}, function (content) {
             if ($dom && System.is_instanceof_jQuery($dom)) {
                 $dom.after(content).remove();
             } else {
-                System.print(content);
+                System.print(res,content);
             }
             throw message;
-        }, {
-            beforeSend: function (a, b) {
-                this.async = false;
-            }
         });
     };
 
     return View;
 };
 
-module.exports = {'class':View,'name':'View'};
+module.exports = View;
 
 

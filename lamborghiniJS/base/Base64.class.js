@@ -11,7 +11,7 @@
 const Base64 = function(System){
     'use strict';
 
-    System.is(System,'Component','Base64',System.classPath+'/base');
+    var Component = require(System.files[0]['Component'])(System);
     var __this__=null;
     var _keyStr = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/=";
 
@@ -71,7 +71,7 @@ const Base64 = function(System){
             return string;
         };
 
-    var Base64 = System.Component.extend({
+    var Base64 = Component.extend({
         constructor: function (){
             this.base();
             __this__=this;
@@ -153,4 +153,4 @@ const Base64 = function(System){
 
     return Base64;
 };
-module.exports = {'class':Base64,'name':'Base64'};
+module.exports = Base64;

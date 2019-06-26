@@ -12,20 +12,24 @@
  *
  *
  */
+const F_Component = require('./Component.class');
+const F_Compiler = require('./Compiler.class');
+const F_Html = require('./Html.class');
 const Template = function(System){
 	'use strict';
-	System.is(System,'Component','Template',System.classPath+'/base');
-
+    const Component = F_Component(System);
+    const Compiler = F_Compiler(System);
+    const Html = F_Html(System);
 
 	var __this__=null;
 	var guid=0;
-	var Template = System.Component.extend({
+	var Template = Component.extend({
 		constructor: function(compiler) {
 			this.base();
 			__this__=this;
 			this.guid=0;
 			guid++;
-			this.compiler = compiler || System.Compiler.getInstance();
+			this.compiler = compiler || Compiler.getInstance();
 			this.html=[];
 		},
 		'_className':'Template',
@@ -48,7 +52,7 @@ const Template = function(System){
 		 */
 		'render':function(path,D,callBack,Cajax){
 			var self=this,view="";
-			System.Html.getFile(path,function(content){
+			Html.getFile(path,function(content){
                 view = self.compiler.compile(content,D);
 				if(System.isFunction(callBack)){
 					callBack(view);
@@ -478,7 +482,7 @@ const Template = function(System){
                 }
                 data[k] =  v;
             });
-            System.Html.getFile(data.file,function(content){
+            Html.getFile(data.file,function(content){
                 S = S.replace(arr_inc[0],function () {
                     return content;
                 });
@@ -500,4 +504,4 @@ const Template = function(System){
 	return Template;
 };
 
-module.exports = {'class':Template,'name':'Template'};
+module.exports = Template;

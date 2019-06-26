@@ -12,22 +12,12 @@
  * Example：
  */
 
-(function(IT,factory){
+const Fsc = function(System){
 	'use strict';
-	var System = IT['LAM_20150910123700_'];
-
-	if(!System){
-		return;
-	}else{
-		System['Fsc'] = factory(System);
-	}
-
-})(this,function(System){
-	'use strict';
-	System.is(System,'Xhr','Fsc',System.classPath+'/base');
+    var Component = require(System.files[0]['Component'])(System);
 
 	var __this__=null;
-	var Fsc = System.Xhr.extend({
+	var Fsc = Component.extend({
 		constructor: function (url,D){
 			this.base(url,D);
 			__this__=this;
@@ -36,35 +26,12 @@
 		},
 		'_className':'Fsc',
 		'__constructor':function(){},
-		'cFsc':function(){
-			var __this__=this;
-			if(this.fso){
-				return this.fso;
-			}
-			if(ActiveXObject){//IE
-				this.fso = new ActiveXObject("Scripting.FileSystemObject");
-			}else{
+		'read':function(){
 
-			}
-			return this.fso;
 		},
 
-		'createTextFile':function(fso,file){
-			fso = fso || this.cFsc();
-			this.file=fso.CreateTextFile(file, true);
-			return this.file;
-		},
-		'writeLine':function(file,str,n){
-			file =file || this.file;
-			file.WriteLine(str);
-			if(n){
-				file.WriteBlankLines(n); //换行
-			}
-		},
-		'fclose':function(file){
-			file = file || this.file;
-			file.close();
-		},
+
+
 		/**
 		 *
 		 * @author lhh
@@ -82,6 +49,6 @@
 	});
 
 	return Fsc;
-});
+};
 
 

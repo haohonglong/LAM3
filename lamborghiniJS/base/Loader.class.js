@@ -15,11 +15,13 @@
 
 const Loader = function(System){
     'use strict';
-    System.is(System,'Object','Loader',System.classPath+'/base');
+    var Object = require(System.files[0]['Object'])(System);
+    require(System.files[0]['Component'])(System);
+
 
     var __this__=null;
     var files = [];
-    var Loader = System.Object.extend({
+    var Loader = Object.extend({
         constructor: function(Config){
             this.base();
             __this__=this;
@@ -143,11 +145,10 @@ const Loader = function(System){
         'destructor':function(){}
     });
 
-    System.import = new Loader().import;
     return Loader;
 
 };
 
 
-module.exports = {'class':Loader,'name':'Loader'};
+module.exports = Loader;
 

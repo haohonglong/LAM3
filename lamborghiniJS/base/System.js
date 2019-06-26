@@ -444,25 +444,162 @@ System = {
      * @param Config
      * Example：
      */
-    'bootstrap':function (Config,Base){
+    'bootstrap':function (Config){
     	System.Config = Config;
-        System.Base = Base;
         this.init();
         const srcs =System.Config.autoLoadFile();
-        var name = "";
-        var obj = {};
         //加载基础类
-        const len = srcs.length;
-        if(len > 0){
-            for(i=1 ;i < len; i++){
-                if(System.Config.files.indexOf(srcs[i]) !== -1){continue;}
-                obj = require(srcs[i]);
-                System[obj.name] = obj.class(System);
-                System.Config.files.push(srcs[i]);
+        var jsfile={};
+        System.each(srcs,function(k,v){
+            if(k in jsfile) return;
+            jsfile[k] = v;
 
+        });
+        System.Config.files.push(jsfile);
+
+    },
+    /**
+     * @author: lhh
+     * 产品介绍：
+     * 创建日期：2015-8-27
+     * 修改日期：2017-9-1
+     * 名称：import
+     * 功能：导入指定的js文件
+     * 说明：System 参数不用传
+     * 注意：
+     * @param   (Array)url 			    NO NULL :要加载js文件
+     * @param   (String|Boolean)baseUrl 		   NULL :文件路径
+     * @param   (String)suffix 		       NULL :文件后缀名
+     * @returns {Loader}返回当前对象可以链式调用import方法
+     * Example：
+     */
+    'import':function(url,baseUrl,suffix){
+        suffix = suffix || '.js';
+        url = this.suffix_checkor(url,suffix);
+        url = baseUrl ? baseUrl+url : url;
+        if(!System.fileExisted(url)){
+            if(System.isClassFile(url)){
+                System.classes.push(url);
+            }
+            System.files.push(url);
+            return require(url);
+        }
+    },
+    /**
+     *
+     * @author: lhh
+     * 名称： suffix_checkor
+     * 功能：检查加载的文件路径是否已经包含后缀名,如果没有就添加返回，有就返回原路径
+     * 创建日期：2016-11-3
+     * 修改日期：2016-11-3
+     * 说明：
+     *
+     * @param {String}str    文件路径
+     * @param {String}suffix 对应文件的后缀名
+     * @returns {*}
+     */
+    'suffix_checkor':function(str,suffix){
+        var self = this;
+        if(suffix){
+            if(-1 === str.indexOf(suffix)){
+                return str+suffix;
+            }else{
+                return str;
+            }
+
+        }
+        for(var i= 0,
+                suffixs=self.Config.render.suffixs,
+                len=suffixs.length;
+            i<len;i++){
+            if(str.indexOf(suffixs[i]) !== -1){
+                return true;
             }
         }
-
+        return false;
+    },
+    /**
+     * @author jQuery
+     * 产品介绍：
+     * 创建日期：2018-4-18
+     * 修改日期：2018-4-18
+     * 名称：camelCase
+     * 功能：转换横线链接单词为驼峰
+     * 说明：抄jQuery 同名方法
+     * 注意：
+     * @param   (String)string            NO NULL :
+     * @return  {String}
+     *
+     */
+    'camelCase': function( string ) {
+        return string.replace( /^-ms-/, "ms-" ).replace( /-([a-z]|[0-9])/ig, function( all, letter ) {
+            return ( letter + "" ).toUpperCase();
+        });
+    },
+    /**
+     * @author: lhh
+     * 产品介绍：
+     * 创建日期：2017-11-13
+     * 修改日期：2017-11-13
+     * 名称： System.http_build_query
+     * 功能：生成 URL-encode 之后的请求字符串
+     * 说明：此方法想法来源于php同名函数
+     * 注意：
+     * @param {JSON}json
+     * @returns {*}
+     */
+    'http_build_query':function(json){
+        if(!System.isPlainObject(json)){return '';}
+        var arr = [];
+        for(var k in json){
+            arr.push(k,'=',json[k],'&');
+        }
+        arr.pop();
+        return arr.join('');
+    },
+    /**
+     * 检查字符串是否是json格式
+     * @param s{String}
+     * @returns {boolean}
+     */
+    'isJson':function(s){
+        if(System.isset(s) && System.isString(s) && s.match("^\{(.+:.+,*){1,}\}$")){
+            return true;
+        }
+        return false;
+    },
+    /**
+     *
+     * @author: lhh
+     * 产品介绍：
+     * 创建日期：2016-8-20
+     * 修改日期：2018-4-9
+     * 名称：System.fileExisted
+     * 功能：检查系统加载器里的文件是否已加载过,class.js 是否已加载过了
+     * 说明：
+     * 注意：
+     * @param file		NO NULL
+     * @param namespace NULL
+     * @returns {boolean}
+     */
+    'fileExisted':function(file,namespace) {
+        if(System.files.in_array(file)){
+            return true;
+        }else if(System.isClassFile(file)){
+            var arr,className;
+            namespace = namespace || System;
+            if(file.indexOf("/") != -1){
+                arr=file.split("/");
+                file =arr[arr.length-1];
+            }
+            if(file.indexOf(".") != -1){
+                arr=file.split(".");
+                className=arr[0].firstToUpperCase();
+                //这个文件已经加载过了
+                if(System.isFunction(namespace[className])){return true;}
+            }
+        }
+        return false;
     },
     /**
      * @author: lhh
@@ -1447,11 +1584,8 @@ System = {
      * Example：
      * 		System.print('s'[,1,'a',...])
      */
-    'print':function(){
-        // var document=System.open();
-        var arr=System.printf.apply(Array,arguments);
-        document.write(arr.join(' '));
-        // System.close(document);
+    'print':function(res,content){
+        res.write(content);
     },
     'Json':{
         /**

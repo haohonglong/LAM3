@@ -81,31 +81,29 @@ const config = function(ROOT,undefined){
             ,'beforeSend':function(){}
         },
         //配置基础文件
-        'autoLoadFile':function(){
-            var classPath=this.getClassPath();
-            return [
-
-                ,classPath+'/base/Object.class.js'
-                ,classPath+'/base/Loader.class.js'
-                ,classPath+'/base/Component.class.js'
-                ,classPath+'/base/Helper.class.js'
-                ,classPath+'/base/Compiler.class.js'
-                ,classPath+'/base/Base64.class.js'
-                ,classPath+'/base/Cache.class.js'
-                ,classPath+'/base/HttpRequest.class.js'
+        'autoLoadFile':function() {
+            var classPath = this.getClassPath();
+            return{
+                 'System':classPath + '/base/System.js'
+                ,'Base':classPath + '/base/Base.class.js'
+                ,'Object':classPath + '/base/Object.class.js'
+                ,'Component': classPath + '/base/Component.class.js'
+                // ,'Loader': classPath + '/base/Loader.class.js'
+                ,'Helper': classPath + '/base/Helper.class.js'
+                ,'Compiler': classPath + '/base/Compiler.class.js'
+                ,'Base64': classPath + '/base/Base64.class.js'
+                ,'Cache': classPath + '/base/Cache.class.js'
+                ,'HttpRequest': classPath + '/base/HttpRequest.class.js'
                 // ,classPath+'/base/Browser.class.js'
                 // ,classPath+'/base/Event.class.js'
                 // ,classPath+'/base/Dom.class.js'
-                ,classPath+'/base/View.class.js'
-                ,classPath+'/base/Template.class.js'
-                ,classPath+'/base/Html.class.js'
-                //
-                // ,classPath+'/base/Storage.class.js'
-                // ,classPath+'/base/Controller.class.js'
-                // ,classPath+'/base/Router.class.js'
-                // ,PLUGINS+'/layer-v3.1.1/layer/layer.js'
-                // ,PLUGINS+'/vue/vue.js'
-            ];
+                ,'View': classPath + '/base/View.class.js'
+                ,'Template': classPath + '/base/Template.class.js'
+                ,'Html': classPath + '/base/Html.class.js'
+                ,'Storage': classPath+'/base/Storage.class.js'
+                ,'Controller': classPath+'/base/Controller.class.js'
+                ,'Router': classPath+'/base/Router.class.js'
+        };
         },
 
         //标签的渲染方式

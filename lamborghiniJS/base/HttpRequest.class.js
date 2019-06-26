@@ -12,13 +12,14 @@
  *		
  * 
  */
-const HttpRequest = function(System){
+const url = require('url');
+const HttpRequest = function(System,req){
 	'use strict';
-	System.is(System,'Component','HttpRequest',System.classPath+'/base');
+    var Component = require(System.files[0]['Component'])(System);
 
 	var __this__=null;
 
-	var HttpRequest = System.Component.extend({
+	var HttpRequest = Component.extend({
 		constructor: function () {
 			this.base();
 			__this__ = this;
@@ -45,19 +46,21 @@ const HttpRequest = function(System){
      * @author lhh
      * 产品介绍：
      * 创建日期：2015-6-25
-     * 修改日期：2018-4-18
+     * 修改日期：2019-6-25
      * 名称：HttpRequest.get
      * 功能：根据指定的url参数获取相对应的参数值
      * 说明：
      * 注意：
      * @param   (String)name            NO NULL :参数名称
+	 * @param req
      * @return  {String}
      *
      */
     HttpRequest.get=function(name){
-        return decodeURI(window.location.search.replace(new RegExp("^(?:.*[&\\?]" + encodeURI(name).replace(/[\.\+\*]/g, "\\$&") + "(?:\\=([^&]*))?)?.*$", "i"), "$1")) || null;
+        return url.parse(req.url, true).query[name];
 
     };
+
 
     HttpRequest.post=function(){};
     HttpRequest.put=function(){};
@@ -70,5 +73,5 @@ const HttpRequest = function(System){
 	return HttpRequest;
 };
 
-module.exports = {'class':HttpRequest,'name':'HttpRequest'};
+module.exports = HttpRequest;
 

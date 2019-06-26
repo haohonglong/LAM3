@@ -12,63 +12,13 @@
  *
  *
  */
+const F_Object = require('./Object.class');
 const Component = function(System){
 	'use strict';
-	System.is(System,'Object','Component',System.classPath+'/base');
+    var Object = F_Object(System);
 	System.merge(null,[{
 
 
-		/**
-		 * @author: lhh
-		 * 产品介绍：
-		 * 创建日期：2015-11-22
-		 * 修改日期：2018-4-11
-		 * 名称：System.module
-		 * 功能：模块
-		 * 说明：
-		 * 注意：
-		 * Example：
-		 */
-		'module':(function(){
-			var module = System.createDict();
-			module.exports = System.createDict();
-            return module;
-		}()),
-
-
-		/**
-		 *
-		 * @author: lhh
-		 * 产品介绍：
-		 * 创建日期：2016-8-20
-		 * 修改日期：2018-4-9
-		 * 名称：System.fileExisted
-		 * 功能：检查系统加载器里的文件是否已加载过,class.js 是否已加载过了
-		 * 说明：
-		 * 注意：
-		 * @param file		NO NULL
-         * @param namespace NULL
-		 * @returns {boolean}
-		 */
-		'fileExisted':function(file,namespace) {
-            if(System.files.in_array(file)){
-            	return true;
-			}else if(System.isClassFile(file)){
-                var arr,className;
-                namespace = namespace || System;
-                if(file.indexOf("/") != -1){
-                    arr=file.split("/");
-                    file =arr[arr.length-1];
-                }
-                if(file.indexOf(".") != -1){
-                    arr=file.split(".");
-                    className=arr[0].firstToUpperCase();
-                    //这个文件已经加载过了
-                    if(System.isFunction(namespace[className])){return true;}
-                }
-			}
-            return false;
-		},
 
 		/**
 		 *
@@ -84,56 +34,9 @@ const Component = function(System){
 		 */
 		'checkout': function() {},
 
-        /**
-         * @author jQuery
-         * 产品介绍：
-         * 创建日期：2018-4-18
-         * 修改日期：2018-4-18
-         * 名称：camelCase
-         * 功能：转换横线链接单词为驼峰
-         * 说明：抄jQuery 同名方法
-         * 注意：
-         * @param   (String)string            NO NULL :
-         * @return  {String}
-         *
-         */
-        'camelCase': function( string ) {
-            return string.replace( /^-ms-/, "ms-" ).replace( /-([a-z]|[0-9])/ig, function( all, letter ) {
-                return ( letter + "" ).toUpperCase();
-            });
-        },
-		/**
-		 * @author: lhh
-		 * 产品介绍：
-		 * 创建日期：2017-11-13
-		 * 修改日期：2017-11-13
-		 * 名称： System.http_build_query
-		 * 功能：生成 URL-encode 之后的请求字符串
-		 * 说明：此方法想法来源于php同名函数
-		 * 注意：
-		 * @param {JSON}json
-		 * @returns {*}
-		 */
-		'http_build_query':function(json){
-			if(!System.isPlainObject(json)){return '';}
-			var arr = [];
-			for(var k in json){
-				arr.push(k,'=',json[k],'&');
-			}
-			arr.pop();
-			return arr.join('');
-		},
-		/**
-		 * 检查字符串是否是json格式
-		 * @param s{String}
-		 * @returns {boolean}
-		 */
-		'isJson':function(s){
-			if(System.isset(s) && System.isString(s) && s.match("^\{(.+:.+,*){1,}\}$")){
-				return true;
-			}
-			return false;
-		},
+
+
+
 		/**
 		 *
 		 * @author: lhh
@@ -288,7 +191,7 @@ const Component = function(System){
 
 	var __this__=null;
 
-	var Component = System.Object.extend({
+	var Component = Object.extend({
 		constructor: function() {
 			this.base();
 			__this__=this;
@@ -469,5 +372,5 @@ const Component = function(System){
 	return Component;
 };
 
-module.exports = {'class':Component,'name':'Component'};
+module.exports = Component;
 

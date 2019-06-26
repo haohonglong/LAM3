@@ -1,9 +1,10 @@
+const F_Component = require('./Component.class');
 const Compiler = function(System){
     'use strict';
-    System.is(System,'Component','Compiler',System.classPath+'/base');
+    const Component = F_Component(System);
 
     var __this__=null;
-    var Compiler = System.Component.extend({
+    var Compiler = Component.extend({
         constructor: function (Config) {
             this.base();
             __this__=this;
@@ -159,6 +160,6 @@ const Compiler = function(System){
     return Compiler;
 };
 
-module.exports = {'class':Compiler,'name':'Compiler'};
+module.exports = Compiler;
 
 

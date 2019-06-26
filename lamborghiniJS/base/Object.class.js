@@ -12,14 +12,14 @@
  *
  *
  */
+const Base = require('./Base.class');
 const Object =function(System){
 	'use strict';
-	System.is(System,'Base','Object',System.classPath+'/base');
 	var __this__=null;
-	var Object = System.Base.extend({
+	var Object = Base.extend({
 		constructor: function() {
 			__this__=this;
-			if(!(System.app instanceof System.Object)){
+			if(!(System.app instanceof Object)){
 				System.app=this;
 				System.each(System.components,function(name,value){
 					if(name in System.app){return true;}
@@ -124,4 +124,4 @@ const Object =function(System){
 
 
 
-module.exports = {'class':Object,'name':'Object'};
+module.exports = Object;
