@@ -1,3 +1,4 @@
+
 const F_Component = require('./Component.class');
 const F_View = require('./View.class');
 const F_Controller = require('./Controller.class');
@@ -84,7 +85,7 @@ const Router = function(System,req,res){
 	    var str = r[0];
         var ControllerName = str.substring(0,1).toUpperCase()+str.substring(1);
         if(System.isString(R.m)) M = R.m+'/';
-        var MyController = require(System.CONTROLLERS+'/'+M+ControllerName+'Controller.class');
+        var MyController = require(System.CONTROLLERS+'/'+M+ControllerName+'Controller.class')(System);
 
         var action = r[1]+'Action';
         var id = r[2];
@@ -97,7 +98,7 @@ const Router = function(System,req,res){
                     controller.viewpath = System.VIEWS+'/'+M+Controller.toLowerCase();
                     controller.init();
                     view = controller[action](id);
-                    if(System.isset(view) && System.isString(view)) System.print(view); 
+                    if(System.isset(view) && System.isString(view)) return view; 
         		}else{ 
         			throw new Error("the action that '"+action+"' was not found"); 
         		} 

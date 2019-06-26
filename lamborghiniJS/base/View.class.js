@@ -1,6 +1,6 @@
 const F_Component = require('./Component.class');
 const F_Template = require('./Template.class');
-const ONCE = 0;
+
 const View = function(System,res){
 	'use strict';
 	const Component = F_Component(System);

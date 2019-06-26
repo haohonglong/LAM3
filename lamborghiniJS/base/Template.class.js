@@ -14,12 +14,12 @@
  */
 const F_Component = require('./Component.class');
 const F_Compiler = require('./Compiler.class');
-const F_Html = require('./Html.class');
+const F_Fsc = require('./Fsc.class');
 const Template = function(System){
 	'use strict';
     const Component = F_Component(System);
     const Compiler = F_Compiler(System);
-    const Html = F_Html(System);
+    const Fsc = F_Fsc(System);
 
 	var __this__=null;
 	var guid=0;
@@ -52,14 +52,12 @@ const Template = function(System){
 		 */
 		'render':function(path,D,callBack,Cajax){
 			var self=this,view="";
-			Html.getFile(path,function(content){
-                view = self.compiler.compile(content,D);
-				if(System.isFunction(callBack)){
-					callBack(view);
-					view = null;
-				}
-
-			},Cajax);
+			var content = Fsc.getFile(path);
+            view = self.compiler.compile(content,D);
+            if(System.isFunction(callBack)){
+                callBack(view);
+                view = null;
+            }
 			this.guid++;
 			return view;
 		},
@@ -482,11 +480,10 @@ const Template = function(System){
                 }
                 data[k] =  v;
             });
-            Html.getFile(data.file,function(content){
-                S = S.replace(arr_inc[0],function () {
-                    return content;
-                });
-            },data);
+            var content = Fsc.getFile(data.file);
+            S = S.replace(arr_inc[0],function () {
+                return content;
+            });
             reg_inc.lastIndex = 0;
         }
         return S;

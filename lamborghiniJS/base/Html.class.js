@@ -1,10 +1,12 @@
-const fs = require('fs');
+
 const F_Component = require('./Component.class');
 const F_Template = require('./Template.class');
+const F_Fsc = require('./Fsc.class');
 const Html = function(System){
 	'use strict';
     const Component = F_Component(System);
     const Template = F_Template(System);
+    const Fsc = F_Fsc(System);
     var Cache = null;
     function getCache(name){
         if(!Cache){
@@ -238,7 +240,7 @@ const Html = function(System){
         'ajax':function () {
 		    var _this = this;
             if(System.isset(this.file)){
-                var data = fs.readFileSync(this.file);
+                var data = Fsc.getFile(this.file);
                 _this.success_callback(data,null,null);
 
             }

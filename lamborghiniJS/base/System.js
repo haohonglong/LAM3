@@ -441,21 +441,23 @@ System = {
      * 说明：
      * 注意：
      * 调用方式：
-     * @param Config
-     * Example：
+     * @param Config{Object}
+     * @param namespace{String} 自定义命名空间名称
      */
-    'bootstrap':function (Config){
-    	System.Config = Config;
+    'bootstrap':function (Config,namespace) {
+        System.Config = Config;
         this.init();
-        const srcs =System.Config.autoLoadFile();
-        //加载基础类
-        var jsfile={};
-        System.each(srcs,function(k,v){
-            if(k in jsfile) return;
+        const srcs = System.Config.autoLoadFile();
+        //初始化基础类
+        var jsfile = {};
+        System.each(srcs, function (k, v) {
+            if (k in jsfile) return;
             jsfile[k] = v;
 
         });
         System.Config.files.push(jsfile);
+        global['LAM3'] = System;
+        if (System.isset(namespace)) global[namespace] = System;
 
     },
     /**

@@ -1,23 +1,11 @@
-(function(IT,factory){
-    'use strict';
-    var System = IT['LAM_20150910123700_'];
-
-    if(!System){
-        return;
-    }else{
-        typeof exports === 'object' && typeof module !== 'undefined' ? module.exports = factory(System) :
-            typeof define === 'function' && define.amd ? define(factory(System)) :
-                (System['RoomController'] = factory(System));
-    }
-
-})(this,function(System){
+const F_Controller = require(LAM3.files[0]['Controller']);
+const RoomController = function(System){
     'use strict';
     var __this__=null;
-    System.is(System,'Controller','RoomController',System.classPath+'/base');
-    var ROOT  = System.BACKEND;
-    var views = System.VIEWS+'/room';
+    const Controller = F_Controller(System);
+    const ROOT  = System.SELF;
     var E = {file_404:System.ERROR_404};
-    var RoomController = System.Controller.extend({
+    var RoomController = Controller.extend({
         constructor: function (init){
             this.base(init || {});
             __this__=this;
@@ -89,6 +77,6 @@
         'destructor':function(){}
     });
     return RoomController;
-});
+};
 
-
+module.exports = RoomController;

@@ -12,9 +12,12 @@
  *
  *
  */
+const F_Component = require('./Component.class');
+const F_View = require('./View.class');
 const Controller = function(System){
     'use strict';
-    var Component = require(System.files[0]['Component'])(System);
+    const Component = F_Component(System);
+    const View = F_View(System);
     var __this__=null;
 
     var Controller = Component.extend({
@@ -35,8 +38,8 @@ const Controller = function(System){
         '_className':'Controller',
         'init':function () {},
         'getView':function(){
-            if(!(this.view instanceof System.View)){
-                this.view = new System.View();
+            if(!(this.view instanceof View)){
+                this.view = new View();
             }
             this.view.title      = this.title;
             this.view.ajaxConfig = this.ajaxConfig;

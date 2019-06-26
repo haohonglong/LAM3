@@ -30,6 +30,7 @@ const Compiler = function(System){
          * @returns {String}
          */
         'compile':function(S,D,delimiters){
+            S = S.toString();
             var self=this;
             var arr=[],v=[],$1,$2;
             delimiters = delimiters || this.delimiters;

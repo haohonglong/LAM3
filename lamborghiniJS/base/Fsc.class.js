@@ -11,10 +11,11 @@
  * @return  ()						:
  * Example：
  */
-
+const fs = require('fs');
+const F_Component = require('./Component.class');
 const Fsc = function(System){
 	'use strict';
-    var Component = require(System.files[0]['Component'])(System);
+    const Component = F_Component(System);
 
 	var __this__=null;
 	var Fsc = Component.extend({
@@ -26,9 +27,7 @@ const Fsc = function(System){
 		},
 		'_className':'Fsc',
 		'__constructor':function(){},
-		'read':function(){
 
-		},
 
 
 
@@ -47,8 +46,29 @@ const Fsc = function(System){
 		 */
 		'destructor':function(){}
 	});
+    /**
+	 *
+     * @param path
+     * @returns {*}
+     */
+	Fsc.getFile=function (path) {
+		path = path.toString();
+        var content = fs.readFileSync(path);
+        return content;
+    };
+    /**
+	 *
+     * @param path
+     * @param content
+     * @returns {boolean}
+     */
+	Fsc.putFile=function (path,content) {
+
+		return true;
+    };
 
 	return Fsc;
 };
 
 
+module.exports = Fsc;

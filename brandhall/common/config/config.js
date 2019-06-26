@@ -88,6 +88,7 @@ const config = function(ROOT,undefined){
                 ,'Base':classPath + '/base/Base.class.js'
                 ,'Object':classPath + '/base/Object.class.js'
                 ,'Component': classPath + '/base/Component.class.js'
+                ,'Fsc': classPath + '/base/Fsc.class.js'
                 // ,'Loader': classPath + '/base/Loader.class.js'
                 ,'Helper': classPath + '/base/Helper.class.js'
                 ,'Compiler': classPath + '/base/Compiler.class.js'
