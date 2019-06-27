@@ -12,36 +12,13 @@
  *		
  * 
  */
+const System =(typeof LAM3 !== 'undefined') ? LAM3 : require('./System');
+const Component = require('./Component.class');
 const url = require('url');
-const HttpRequest = function(System,req){
-	'use strict';
-    var Component = require(System.files[0]['Component'])(System);
-
-	var __this__=null;
-
-	var HttpRequest = Component.extend({
-		constructor: function () {
-			this.base();
-			__this__ = this;
-		},
-		'_className':'HttpRequest',
-
-		/**
-		 *
-		 * @author lhh
-		 * 产品介绍：析构方法
-		 * 创建日期：2015-4-2
-		 * 修改日期：2015-4-2
-		 * 名称：destructor
-		 * 功能：在注销HttpRequest对象时调用此方法
-		 * 说明：
-		 * 注意：
-		 * @return  ()
-		 * Example：
-		 */
-		'destructor':function(){}
-	});
-
+class HttpRequest extends Component{
+    constructor(){
+    	super();
+	}
     /**
      * @author lhh
      * 产品介绍：
@@ -52,26 +29,18 @@ const HttpRequest = function(System,req){
      * 说明：
      * 注意：
      * @param   (String)name            NO NULL :参数名称
-	 * @param req
+     * @param req
      * @return  {String}
      *
      */
-    HttpRequest.get=function(name){
-        return url.parse(req.url, true).query[name];
+    static get(name,req){return url.parse(req.url, true).query[name];}
+    static post(){}
+    static put(){}
+    static delete(){}
+}
 
-    };
-
-
-    HttpRequest.post=function(){};
-    HttpRequest.put=function(){};
-    HttpRequest.delete=function(){};
-
-    System.merge(null,[{
-    	'get':HttpRequest.get
-	}],true);
-
-	return HttpRequest;
-};
-
+System.merge(null,[{
+    'get':HttpRequest.get
+}],true);
 module.exports = HttpRequest;
 

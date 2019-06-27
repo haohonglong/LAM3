@@ -85,7 +85,6 @@ const config = function(ROOT,undefined){
             var classPath = this.getClassPath();
             return{
                  'System':classPath + '/base/System.js'
-                ,'Base':classPath + '/base/Base.class.js'
                 ,'Object':classPath + '/base/Object.class.js'
                 ,'Component': classPath + '/base/Component.class.js'
                 ,'Fsc': classPath + '/base/Fsc.class.js'

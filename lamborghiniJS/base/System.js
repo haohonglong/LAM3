@@ -1,5 +1,5 @@
 /*!
- * LAM2 JavaScript Library
+ * LAM3 JavaScript Library
  * created by lhh
  * https://github.com/haohonglong/lam2
  *
@@ -770,6 +770,7 @@ System = {
      */
     'globalEval': function(data) {
         if (System.isset(data) && System.isString(data) && data.trim()) {
+            console.log('322323');process.exit()
             // We use execScript on Internet Explorer
             // We use an anonymous function so that context is window
             // rather than jQuery in Firefox

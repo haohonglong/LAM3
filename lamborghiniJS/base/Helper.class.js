@@ -12,6 +12,7 @@
  *		
  * 
  */
+const System =(typeof LAM3 !== 'undefined') ? LAM3 : require('./System');
 const Helper = function(System){
 	'use strict';
 	System.is(System,'Component','Helper',System.classPath+'/base');
